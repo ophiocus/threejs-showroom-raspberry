@@ -246,20 +246,22 @@ footer.page-footer span {
 
 #config_menu_container{
   position:fixed;
-  background-color: chartreuse;
   display: flex;
   flex-direction: row;
-  bottom: 1vh;
+  bottom: 3vh;
   left:0%;
 }
 
 #config_menu_gear i{
   position:relative;
-  background-color: #655be1;
-  left:100%;
-  top:-100%;
+  left:0%;
   display: block;
-  color:rgba(95, 158, 160,0.5);
+  color:rgba(245, 245, 245, 0.5);
+  transition: left 1s;
+}
+
+#config_menu_gear.hidden i{
+  left:100%;
 }
 
 #config_menu_gear i:hover{
@@ -268,6 +270,8 @@ footer.page-footer span {
 
 #config_menu_items {
   position: relative;
+  display:flex;
+  flex-direction: row;
   left:0%;
   transition: left 1s;
 }
@@ -277,10 +281,12 @@ footer.page-footer span {
 }
 
 .config_item_value{
-  width:6em;
+  padding:0.3em;
+  margin:0 0.3em;
   border: 2px solid white;
-  top: -100%;
+  
 }
+
 
 
 

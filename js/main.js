@@ -62,6 +62,7 @@ function handle_checkbox_change() {
 // event handler for gear
 const on_gear = (e) =>{
     document.getElementById('config_menu_items').classList.toggle('hidden');
+    document.getElementById('config_menu_gear').classList.toggle('hidden');
 };
 
 // event listener for gear
