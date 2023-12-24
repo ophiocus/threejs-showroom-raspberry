@@ -33,6 +33,8 @@ const Context = (() => {
    * @property {string} config.transitionTarget - A location in space used to place the subject and control targets during scene transitions.
    * @property {string} config.skydomeTexturesDefaultDir - The default dir to look for skydome textures.
    * @property {string} config.skydome - A collection of equirectangular textures that can be used for sky and environment maps.
+   * @property {object} config.setTarget - A configuration object for the setTarget animation stacks. 
+   * @property {object} config.sceneStageAnim - A configuration object for the sceneStageAnim animation stacks. 
    * @public
    * 
    */
@@ -67,7 +69,7 @@ const Context = (() => {
     sceneCurrentAnimation:'',
 
     // animation defaults
-    setTarget:{'concurrent':false},
+    setTarget:{'concurrent':true},
     sceneStageAnim:{'concurrent':true},
 
     // vars
@@ -75,6 +77,7 @@ const Context = (() => {
     secToIddle: 30,
     transitionTarget: new THREE.Vector3(.3, 1.5, -.3),
     skydomeTexturesDefaultDir: '/hdri/',
+    genericTexturesDefaultDir: '/textures',
     skydome: {
       textures: {
         'sea': 'kloofendal_48d_partly_cloudy_puresky_4k_web_high.jpg',
