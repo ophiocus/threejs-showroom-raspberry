@@ -466,7 +466,6 @@ const Handlers = (() => {
    */
   const caseCharAnim = (anim) => {
     console.group("char")
-    console.log("char!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
     // import from context, current animation
     const anim_check = context.get.config.currentAnimation;

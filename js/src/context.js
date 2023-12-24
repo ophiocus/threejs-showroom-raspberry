@@ -52,25 +52,25 @@ const Context = (() => {
     cameraRatio: window.innerWidth / window.innerHeight,
     cameraNearFrustum: 0.001,
     cameraFarFrustum: 1000,
-    
+
     //scene config
-    scenesAllowed: ['sea', 'grassland', 'snow','icosphere'],
+    scenesAllowed: ['sea', 'grassland', 'snow', 'icosphere'],
     sceneDefaultStage: 'icosphere',
-    
+
     // scene state
     sceneCurrentStage: '',
     sceneCurrentCase: '',
 
     // animation state
-    animStack:[],
-    tweenStack:[],
-    currentAnimation:'',
-    tweenCurrentAnimation:'',
-    sceneCurrentAnimation:'',
+    animStack: [],
+    tweenStack: [],
+    currentAnimation: '',
+    tweenCurrentAnimation: '',
+    sceneCurrentAnimation: '',
 
     // animation defaults
-    setTarget:{'concurrent':true},
-    sceneStageAnim:{'concurrent':true},
+    setTarget: { 'concurrent': true },
+    sceneStageAnim: { 'concurrent': true },
 
     // vars
     subject: 'Raspberry-pi_char',
@@ -78,12 +78,17 @@ const Context = (() => {
     transitionTarget: new THREE.Vector3(.3, 1.5, -.3),
     skydomeTexturesDefaultDir: '/hdri/',
     genericTexturesDefaultDir: '/textures',
+    props: {
+      sea_shadder: {
+        normals: 'waternormals.jpg'
+      }
+    },
     skydome: {
       textures: {
         'sea': 'kloofendal_48d_partly_cloudy_puresky_4k_web_high.jpg',
         'grassland': 'resting_place_4k_web_high.jpg',
         'snow': 'snowy_park_01_4k_web_high.jpg',
-        'icosphere':'blender_1.jpg'
+        'icosphere': 'blender_1.jpg'
       }
     },
   };
@@ -110,7 +115,7 @@ const Context = (() => {
   coords.cam_offset = new THREE.Vector3(-0.1, 0.12, 0.12);
 
   // Coords Case Jump
-  coords.sbc_offset_jump = new THREE.Vector3(0,.05,0);
+  coords.sbc_offset_jump = new THREE.Vector3(0, .05, 0);
 
   // Coords Iddle Anim
   coords.cam_iddle = new THREE.Vector3(.35, .25, .35);
