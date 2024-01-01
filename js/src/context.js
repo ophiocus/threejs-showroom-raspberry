@@ -69,7 +69,7 @@ const Context = (() => {
     sceneCurrentAnimation: '',
 
     // animation defaults
-    setTarget: { 'concurrent': true },
+    setTarget: { 'concurrent': false },
     sceneStageAnim: { 'concurrent': true },
 
     // vars
@@ -77,12 +77,20 @@ const Context = (() => {
     secToIddle: 30,
     transitionTarget: new THREE.Vector3(.3, 1.5, -.3),
     skydomeTexturesDefaultDir: '/hdri/',
-    genericTexturesDefaultDir: '/textures',
+    genericTexturesDefaultDir: '/textures/',
+
+    // custom renders
+    customRender: false,
+    customRenderStack:[],
+
+    // props
     props: {
       sea_shadder: {
         normals: 'waternormals.jpg'
       }
     },
+
+    // Skydome
     skydome: {
       textures: {
         'sea': 'kloofendal_48d_partly_cloudy_puresky_4k_web_high.jpg',

@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GroundProjectedSkybox } from 'three/addons/objects/GroundProjectedSkybox.js';
+import { Water } from 'three/addons/objects/Water.js';
 import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js';
 import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUniformsLib.js';
 import { Context } from '/js/src/context.js';
@@ -36,7 +37,7 @@ const Project = (() => {
     scene.background = new THREE.Color(0x443333);
     scene.fog = new THREE.Fog(0xcdcdcd, 0.3, 22);
 
-    stage_set_skydome();
+    
 
     // Add props
     // const stage_add_props;
@@ -113,7 +114,7 @@ const Project = (() => {
     dirLight1.shadow.mapSize.width = 4096; // default
     dirLight1.shadow.mapSize.height = 4096; // default
     dirLight1.shadow.camera.near = 0.001; // default
-    dirLight1.shadow.camera.far = 1000; // default
+    dirLight1.shadow.camera.far = 100000; // default
     dirLight1.shadow.radius = 15;
     dirLight1.shadow.blurSamples = 25;
     scene.add(dirLight1);
@@ -129,9 +130,76 @@ const Project = (() => {
     // Add to context: scene
     context.add({ 'name': "scene", 'obj': scene });
 
+    stage_set_skydome();
+
+    stage_set_props();
+
     console.groupEnd();
     return scene;
   };
+
+  /**
+   * Set dynamic or otherwise procedural props meshes and  items used in scenes.
+   * @private
+   * @function
+   */
+  const stage_set_props = () => {
+    console.group("stage_set_props");
+    // Ocean prop
+    const waterGeometry = new THREE.PlaneGeometry(100, 100);
+    const water = new Water(
+      waterGeometry,
+      {
+        textureWidth: 512,
+        textureHeight: 512,
+        waterNormals: new THREE.TextureLoader().load(`${context.get.config.genericTexturesDefaultDir}${context.get.config.props.sea_shadder.normals}`,
+          texture => {
+            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+          }),
+        sunDirection: new THREE.Vector3(),
+        sunColor:0xffffff,
+        waterColor:0x001e0f,
+        distortionScale: .3,
+        fog: context.get.scene.fog !== undefined
+      }
+    );
+
+    // water is flat
+    water.rotation.x = -Math.PI / 2;
+    water.name='ocean_water';
+
+    //water has ridges
+    water.material.uniforms[ 'size' ].value = 32;
+
+    context.get.scene.add(water);
+
+    // Add custom render for water prop
+    const waterCallback = () => {
+      water.material.uniforms[ 'time' ].value += 0.273 / 60.0;
+    };
+
+    // Add custom render to render stack
+    context.get.config.customRenderStack.push(waterCallback);
+    context.get.config.customRender = true;
+    
+    console.groupEnd();
+  };
+
+  /**
+   * Custom Render call that can get rules attached to execute as stored callbacks per render iteration.
+   * 
+   */
+  const render = () =>{
+    // if enabled
+    if (context.get.config.customRender) {
+      for (const renderItem of context.get.config.customRenderStack) {
+        if (typeof renderItem === 'function'){
+          renderItem();
+        }
+      }
+    }
+  };
+
 
   /**
    * In the early setup the change sky Handler is still not capable of adapting scene elements, we must use direct calls.
@@ -207,9 +275,9 @@ const Project = (() => {
     // Camera offset
     const camera_pos = new THREE.Vector3().addVectors(coords.cam_offset, coords.target);
     console.log("Camera POS:", camera_pos);
-    
+
     // Camera Position
-    const {x,y,z} = camera_pos;
+    const { x, y, z } = camera_pos;
     camera.position.set(x, y, z);
 
     // Export camera
@@ -221,12 +289,12 @@ const Project = (() => {
     console.groupEnd();
     return camera;
   };
-/**
-   * The Orbit Control system is used and instantiated from default values, See {@link module:Context}.
-   * @alias module:Project.setControls
-   * @returns {OrbitControls} controls
-   * @async
-   */
+  /**
+     * The Orbit Control system is used and instantiated from default values, See {@link module:Context}.
+     * @alias module:Project.setControls
+     * @returns {OrbitControls} controls
+     * @async
+     */
   const controls_set = async () => {
     console.group("controls_set");
     const controls_promise = new Promise((resolve, reject) => {
@@ -447,6 +515,7 @@ const Project = (() => {
     setRenderer: () => renderer_set(),
     setControls: () => controls_set(),
     loadGltfScene: () => gltf_scene_load(),
+    render: () => render(),
   };
 })();
 

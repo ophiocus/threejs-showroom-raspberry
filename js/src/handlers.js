@@ -4,7 +4,8 @@ import TWEEN from '@tweenjs/tween.js';
 import { GroundProjectedSkybox } from 'three/addons/objects/GroundProjectedSkybox.js';
 
 /**
- * Handlers is the core event router for interactivity.
+ * Handlers is the core event router for interactivity.<br>
+ * The handlers module implements the manners in which we want to resposnd to user and system events.
  * @module Handlers
  * @exports Handlers
  * 

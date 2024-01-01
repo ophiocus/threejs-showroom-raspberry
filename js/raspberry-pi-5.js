@@ -88,6 +88,7 @@ const animate = () => {
     mixer.update(delta);
     TWEEN.update();
     controls.update(delta);
+    Project.render();
     
     renderer.render(context.get.scene, context.get.camera);
   } catch (e) {
